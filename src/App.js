@@ -3,10 +3,13 @@ import './App.css';
 
 import Titles from './components/titles';
 import Form from './components/form';
-import Weather from './components/weather';
 
 
 class App extends React.Component {
+
+  state = {
+
+  };
 
 
 
@@ -16,7 +19,6 @@ class App extends React.Component {
         <div>
             <Titles />
             <Form />
-            <Weather />
         </div>
     )
   }
