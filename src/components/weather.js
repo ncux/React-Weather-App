@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 
 class Weather extends Component {
 
-    // state = {
-    //
-    // };
-
     render() {
 
         return (
@@ -20,7 +16,6 @@ class Weather extends Component {
                 </div>
         )
     }
-
 
 }
 

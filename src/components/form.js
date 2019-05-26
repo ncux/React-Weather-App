@@ -15,7 +15,8 @@ class Form extends Component {
             maxTemp: null,
             windSpeed: null,
             description: ''
-        }
+        },
+        error: ''
     };
 
     getInputValue = (e) => this.setState({ [e.target.name]: e.target.value });
@@ -24,27 +25,41 @@ class Form extends Component {
         e.preventDefault();
         const city = e.target.city.value;
         const country = e.target.country.value;
-        let response = await axios.get(`${queryUrl}&q=${city},${country}`);
-        console.log(city, country, response['data']);
+        if (city && country) {
+            let response = await axios.get(`${queryUrl}&q=${city},${country}`);
+            console.log(city, country, response['data']);
 
-        this.setState({
-            weatherData: {
-                city: response['data']['name'],
-                country: response['data']['sys']['country'],
-                currentTemp: response['data']['main']['temp'],
-                minTemp: response['data']['main']['temp_min'],
-                maxTemp: response['data']['main']['temp_max'],
-                windSpeed: response['data']['wind']['speed'],
-                description: response['data']['weather'][0]['description'],
-            },
-            city: '',
-            country: ''
-        });
+            this.setState({
+                weatherData: {
+                    city: response['data']['name'],
+                    country: response['data']['sys']['country'],
+                    currentTemp: response['data']['main']['temp'],
+                    minTemp: response['data']['main']['temp_min'],
+                    maxTemp: response['data']['main']['temp_max'],
+                    windSpeed: response['data']['wind']['speed'],
+                    description: response['data']['weather'][0]['description'],
+                },
+                city: '',
+                country: '',
+
+            });
+        } else {
+            this.setState({ error: 'Please input both city and country values!' });
+        }
+
     };
 
     render() {
 
-        // const displayWeather =
+        const displayWeather = () => {
+          return this.state.weatherData.city ? (
+
+              <Weather weatherData={ this.state.weatherData } />
+
+          ) : (
+              <p>Input the city and country name above.</p>
+          )
+        };
 
         return (
 
@@ -56,7 +71,8 @@ class Form extends Component {
                     <button type="submit">Get weather</button>
                 </form>
 
-                <Weather weatherData={this.state.weatherData} />
+
+                { displayWeather() }
 
             </React.Fragment>
 

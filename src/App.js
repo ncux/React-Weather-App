@@ -7,12 +7,6 @@ import Form from './components/form';
 
 class App extends React.Component {
 
-  state = {
-
-  };
-
-
-
   render() {
 
     return (
