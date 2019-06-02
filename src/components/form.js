@@ -3,6 +3,7 @@ import Weather from './weather';
 
 import axios from 'axios';
 
+const queryUrl = `http://api.openweathermap.org/data/2.5/weather?appid=a52f93e46e59b1cecebd0c71a0024028&units=metric`;
 
 class Form extends Component {
 
@@ -19,7 +20,7 @@ class Form extends Component {
         error: ''
     };
 
-    getInputValue = (e) => this.setState({ [e.target.name]: e.target.value });
+    getInputValue = e => this.setState({ [e.target.name]: e.target.value });
 
     fetchWeather = async e => {
         e.preventDefault();
@@ -33,10 +34,10 @@ class Form extends Component {
                 weatherData: {
                     city: response['data']['name'],
                     country: response['data']['sys']['country'],
-                    currentTemp: response['data']['main']['temp'],
-                    minTemp: response['data']['main']['temp_min'],
-                    maxTemp: response['data']['main']['temp_max'],
-                    windSpeed: response['data']['wind']['speed'],
+                    currentTemp: Math.round(response['data']['main']['temp']),
+                    minTemp: Math.floor(response['data']['main']['temp_min']),
+                    maxTemp: Math.ceil(response['data']['main']['temp_max']),
+                    windSpeed: Math.round(response['data']['wind']['speed']),
                     description: response['data']['weather'][0]['description'],
                 },
                 city: '',
@@ -51,27 +52,38 @@ class Form extends Component {
 
     render() {
 
+        const showErrorMessage = () => {
+            return this.state.error ? (
+                <p className="text-warning text-center">Please input both city and country values!</p>
+            ) : (
+                null
+            )
+        };
+
         const displayWeather = () => {
-          return this.state.weatherData.city ? (
+            // this.setState({ error: '' });
+
+            return this.state.weatherData.city ? (
 
               <Weather weatherData={ this.state.weatherData } />
 
           ) : (
-              <p>Input the city and country name above.</p>
+              <p className="lead text-center text-primary">Input the city and country name above.</p>
           )
         };
+
 
         return (
 
             <React.Fragment>
 
                 <form onSubmit={ this.fetchWeather }>
-                    <input onChange={ this.getInputValue } value={ this.state.city } name="city" placeholder="City..." />
-                    <input onChange={ this.getInputValue } value={ this.state.country } name="country" placeholder="Country..." />
-                    <button type="submit">Get weather</button>
+                    <input onChange={ this.getInputValue } value={ this.state.city } name="city" placeholder="City..." className="form-control mb-3" />
+                    <input onChange={ this.getInputValue } value={ this.state.country } name="country" placeholder="Country..." className="form-control" />
+                    <button type="submit" className="btn btn-primary btn-lg btn-block my-3">Get weather</button>
                 </form>
 
-
+                { showErrorMessage() }
                 { displayWeather() }
 
             </React.Fragment>
@@ -82,8 +94,6 @@ class Form extends Component {
 }
 
 
-
 export default Form;
 
 
-const queryUrl = `http://api.openweathermap.org/data/2.5/weather?appid=a52f93e46e59b1cecebd0c71a0024028&units=metric`;

@@ -10,9 +10,15 @@ class App extends React.Component {
   render() {
 
     return (
-        <div>
-            <Titles />
-            <Form />
+        <div className="container-fluid mt-3">
+            <div className="row m-auto">
+                <div className="col-md-6 m-auto">
+
+                    <Titles />
+                    <Form />
+
+                </div>
+            </div>
         </div>
     )
   }
