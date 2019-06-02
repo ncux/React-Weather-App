@@ -8,7 +8,7 @@ class Weather extends Component {
             <div className="row m-auto">
                 <div className="col-md-6 m-auto">
 
-                    <h4 className="text-center">Current weather for { this.props.weatherData.city }, { this.props.weatherData.country }</h4>
+                    <h4 className="text-center mb-3">Current weather for { this.props.weatherData.city }, { this.props.weatherData.country }</h4>
 
                     <div className="weather-grid">
                         <p><span>Current temperature:</span> <span style={{ float: 'right' }}>{ this.props.weatherData.currentTemp } &deg;C</span></p>
@@ -20,8 +20,6 @@ class Weather extends Component {
                     </div>
 
                 </div>
-
-
             </div>
 
         )

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Titles = (props) => {
+const Titles = props => {
 
     return (
         <div>

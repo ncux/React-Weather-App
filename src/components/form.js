@@ -26,6 +26,7 @@ class Form extends Component {
         e.preventDefault();
         const city = e.target.city.value;
         const country = e.target.country.value;
+
         if (city && country) {
             let response = await axios.get(`${queryUrl}&q=${city},${country}`);
             console.log(city, country, response['data']);
@@ -42,7 +43,7 @@ class Form extends Component {
                 },
                 city: '',
                 country: '',
-
+                error: ''
             });
         } else {
             this.setState({ error: 'Please input both city and country values!' });
@@ -50,23 +51,19 @@ class Form extends Component {
 
     };
 
+    showErrorMessage = () => {
+        return this.state.error ? (
+            <p className="text-danger lead text-center">Please input both city and country values!</p>
+        ) : (
+            null
+        )
+    };
+
     render() {
 
-        const showErrorMessage = () => {
-            return this.state.error ? (
-                <p className="text-warning text-center">Please input both city and country values!</p>
-            ) : (
-                null
-            )
-        };
-
         const displayWeather = () => {
-            // this.setState({ error: '' });
-
             return this.state.weatherData.city ? (
-
               <Weather weatherData={ this.state.weatherData } />
-
           ) : (
               <p className="lead text-center text-primary">Input the city and country name above.</p>
           )
@@ -83,7 +80,7 @@ class Form extends Component {
                     <button type="submit" className="btn btn-primary btn-lg btn-block my-3">Get weather</button>
                 </form>
 
-                { showErrorMessage() }
+                { this.showErrorMessage() }
                 { displayWeather() }
 
             </React.Fragment>
